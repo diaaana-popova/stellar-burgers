@@ -2,6 +2,8 @@ import { FC, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { useSelector } from '../../services/store';
+import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
@@ -14,6 +16,15 @@ export const OrderInfo: FC = () => {
     updatedAt: 'string',
     number: 0
   };
+
+  // const ordersData = useSelector((state) => state.allOrders.orders);
+
+  // const { number } = useParams<{ number: string }>();
+
+  // const orderData = useMemo(() => {
+  //     if (!orderData || !ingredients.length) return null;
+  //     return ordersData
+  //   })
 
   const ingredients: TIngredient[] = [];
 
