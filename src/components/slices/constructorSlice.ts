@@ -25,11 +25,6 @@ export const initialState: constructorState = {
   orderModalData: null
 };
 
-// export const sendOrder = createAsyncThunk<TOrder[]>(
-//   'ingredients/sendOrder',
-//   async () => orderBurgerApi(orderModalData)
-// );
-
 const constructorSlice = createSlice({
   name: 'burger-constructor',
   initialState,

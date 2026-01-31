@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../components/slices/ingredientSlice';
 import { Preloader } from '@ui';
+import { ProtectedRoute } from '../protected-route';
+import { checkUser } from '../slices/profileSlice';
 
 const AppLayout = () => (
   <div className={styles.app}>
@@ -38,6 +40,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(checkUser())
   }, [dispatch]);
 
   const onClose = () => {
@@ -67,6 +73,9 @@ const App = () => {
               }
             />
           </Route>
+          <Route path='profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path='login' element={<Login />} />
+          <Route path='register' element={<Register />} />
         </Route>
       </Routes>
       {background && (
@@ -95,16 +104,6 @@ const App = () => {
 
 export default App;
 
-          {/* <Route path='feed' element={<Feed />}>
-            <Route
-              path=':number'
-              element={
-                <Modal title='1' onClose={onClose}>
-                  <OrderInfo />
-                </Modal>
-              }
-            />
-          </Route> */}
 
           {/* 
           <Route path='login' element={<ProtectedRoute><Login /></ProtectedRoute>} />
