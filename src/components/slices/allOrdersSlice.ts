@@ -6,12 +6,16 @@ interface allOrdersState {
   orders: TOrder[];
   success: boolean;
   error?: string | null;
+  total: number;
+  totalToday: number;
 }
 
 export const initialState: allOrdersState = {
   orders: [],
   success: false,
-  error: null
+  error: null,
+  total: 0,
+  totalToday: 0
 };
 
 export const fetchAllOrders = createAsyncThunk<TFeedsResponse>(
@@ -35,6 +39,8 @@ const allOrdersSlice = createSlice({
       .addCase(fetchAllOrders.fulfilled, (state, action) => {
         state.success = true;
         state.orders = action.payload.orders;
+        state.total = action.payload.total;
+        state.totalToday = action.payload.totalToday;
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
         state.success = false;
