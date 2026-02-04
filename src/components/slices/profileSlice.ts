@@ -1,7 +1,9 @@
-import { loginUserApi, registerUserApi, TAuthResponse, TLoginData, TRegisterData, getUserApi } from "@api";
-import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
-import { setCookie } from '../../utils/cookie';
+import { loginUserApi, registerUserApi, TLoginData, TRegisterData, getUserApi, updateUserApi, logoutApi } from "@api";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { deleteCookie, setCookie } from '../../utils/cookie';
 import { TUser } from "@utils-types";
+import { create } from "domain";
+import { useDispatch } from '../../services/store';
 
 export interface ProfileState {
   user: TUser | null
@@ -31,6 +33,23 @@ export const checkUser = createAsyncThunk(
    async () => getUserApi()
 );
 
+export const updateUser = createAsyncThunk(
+    'profile/update',
+    async (data: Partial<TRegisterData>) => updateUserApi(data)
+);
+
+export const userLogout = createAsyncThunk(
+    'profile/logout',
+    async (_, { dispatch }) => {
+        await logoutApi();
+
+        deleteCookie('accessToken');
+        localStorage.removeItem('refreshToken');
+
+        dispatch(logout());
+  }
+)
+
 export const login = createAsyncThunk(
   'profile/login',
    async ({ email, password }: TLoginData) => {
@@ -44,7 +63,13 @@ export const login = createAsyncThunk(
 const profileSlice = createSlice({
   name: 'profile',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+        state.user = null;
+        state.isAuthChecked = true;
+        state.isAuthenticated = false;
+    }
+  },
   selectors: {
     getProfileSelector: (state) => state
   },
@@ -96,7 +121,20 @@ const profileSlice = createSlice({
                 state.user = action.payload.user;
                 state.isAuthenticated = true;
             })
+        builder
+            .addCase(updateUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.error.message ?? 'Неизвестная ошибка';
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.user = action.payload.user;
+                state.isLoading = false;
+            })
 }});
 
 export const { getProfileSelector } = profileSlice.selectors;
+export const { logout } = profileSlice.actions;
 export default profileSlice.reducer;

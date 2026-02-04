@@ -1,19 +1,15 @@
-import { getIngredientsApi, orderBurgerApi } from '@api';
 import {
-  createAsyncThunk,
   createSlice,
   nanoid,
   PayloadAction
 } from '@reduxjs/toolkit';
-import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 interface constructorState {
   items: {
     bun: TIngredient | null;
     ingredients: Array<TConstructorIngredient>;
   };
-  orderRequest: boolean;
-  orderModalData: TOrder | null;
 }
 
 export const initialState: constructorState = {
@@ -21,8 +17,6 @@ export const initialState: constructorState = {
     bun: null,
     ingredients: []
   },
-  orderRequest: false,
-  orderModalData: null
 };
 
 const constructorSlice = createSlice({
@@ -65,6 +59,10 @@ const constructorSlice = createSlice({
         ingredients[index + 1],
         ingredients[index]
       ];
+    },
+    clearIngredients: (state) => {
+      state.items.bun = null;
+      state.items.ingredients = [];
     }
   },
   selectors: {
@@ -78,6 +76,7 @@ export const {
   addBun,
   removeIngredient,
   moveIngredientUp,
-  moveIngredientDown
+  moveIngredientDown,
+  clearIngredients
 } = constructorSlice.actions;
 export default constructorSlice.reducer;

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
 import { useSelector } from '../../services/store';
@@ -15,8 +14,6 @@ export const FeedInfo: FC = () => {
   const allOrders = useSelector((state) => state.allOrders.orders);
   const total = useSelector((state) => state.allOrders.total);
   const totalToday = useSelector((state) => state.allOrders.totalToday);
-
-  console.log(total);
 
   const feed = {
     total: total,

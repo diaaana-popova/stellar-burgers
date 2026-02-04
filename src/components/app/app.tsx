@@ -11,7 +11,6 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import React from 'react';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -47,7 +46,7 @@ const App = () => {
   }, [dispatch]);
 
   const onClose = () => {
-    navigate(-1);
+    navigate(background);
   };
 
     const isLoading = useSelector(
@@ -74,8 +73,17 @@ const App = () => {
             />
           </Route>
           <Route path='profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path='login' element={<Login />} />
-          <Route path='register' element={<Register />} />
+          <Route path='profile/orders' element={<ProtectedRoute><ProfileOrders /></ProtectedRoute>}>
+              <Route
+              path=':number'
+              element={<OrderInfo />
+              }
+            />
+          </Route>
+          <Route path='login' element={<ProtectedRoute onlyUnAuth><Login /></ProtectedRoute>} />
+          <Route path='register' element={<ProtectedRoute onlyUnAuth><Register /></ProtectedRoute>} />
+          <Route path='forgot-password' element={<ProtectedRoute onlyUnAuth><ForgotPassword /></ProtectedRoute>} />
+          <Route path='reset-password' element={<ProtectedRoute onlyUnAuth><ResetPassword /></ProtectedRoute>} />
         </Route>
       </Routes>
       {background && (
@@ -88,14 +96,22 @@ const App = () => {
               </Modal>
             }
           />
-        {<Route
+        <Route
           path='feed/:number'
           element={
             <Modal title='Детали заказа' onClose={onClose}>
               <OrderInfo />
             </Modal>
             }
-          />}
+          />
+          <Route
+          path='profile/orders/:number'
+          element={
+            <Modal title='Детали заказа' onClose={onClose}>
+              <OrderInfo />
+            </Modal>
+            }
+          />
       </Routes>
       )}
     </div>
@@ -103,46 +119,3 @@ const App = () => {
 };
 
 export default App;
-
-
-          {/* 
-          <Route path='login' element={<ProtectedRoute><Login /></ProtectedRoute>} />
-          <Route path='register' element={<ProtectedRoute><Register /></ProtectedRoute>} />
-          <Route path='forgot-password' element={<ProtectedRoute><ForgotPassword /></ProtectedRoute>} />
-          <Route path='reset-password' element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
-
-          <Route path='profile' element={<ProtectedRoute><Profile /></ProtectedRoute>}>
-            <Route path='orders' element={<ProtectedRoute><ProfileOrders /></ProtectedRoute>}>
-              <Route path=':number' element={<ProtectedRoute><Modal><OrderInfo /></Modal></ProtectedRoute>}></Route>
-            </Route>
-          </Route> */}
-
-
-  //           return (
-  //   <>
-  //     <Routes>
-  //       <Route path='/' element={<AppLayout />}>
-  //         <Route index element={<ConstructorPage />} />
-  //         <Route path='feed' element={<Feed />}>
-  //           <Route
-  //             path=':number'
-  //             element={
-  //               <Modal title='1' onClose={onClose}>
-  //                 <OrderInfo />
-  //               </Modal>
-  //             }
-  //           />
-  //         </Route>
-  //         <Route
-  //           path='ingredients/:id'
-  //           element={
-  //             <Modal title='Детали ингредиента' onClose={onClose}>
-  //               <IngredientDetails />
-  //             </Modal>
-  //           }
-  //         />
-  //         <Route path='*' element={<NotFound404 />} />
-  //       </Route>
-  //     </Routes>
-  //   </>
-  // );
