@@ -3,11 +3,15 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from '../../services/store';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
 
-  const allOrders = useSelector((state) => state.allOrders.orders);
+  const location = useLocation();
+
+  const allOrders = location.pathname.startsWith('/profile')
+    ? useSelector((state) => state.order.myOrders)
+    : useSelector((state) => state.allOrders.orders)
 
   const { number } = useParams();
 

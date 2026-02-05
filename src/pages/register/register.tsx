@@ -1,7 +1,7 @@
 import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
-import { register } from '../../components/slices/profileSlice';
+import { register } from '../../services/slices/profileSlice';
 import { useNavigate } from 'react-router-dom';
 
 export const Register: FC = () => {

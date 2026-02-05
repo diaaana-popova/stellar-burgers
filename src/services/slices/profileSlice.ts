@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { deleteCookie, setCookie } from '../../utils/cookie';
 import { TUser } from "@utils-types";
 import { create } from "domain";
-import { useDispatch } from '../../services/store';
+import { useDispatch } from '../store';
 
 export interface ProfileState {
   user: TUser | null
@@ -107,6 +107,7 @@ const profileSlice = createSlice({
                 state.isLoading = false;
                 state.error = null;
                 state.isSuccess = true;
+                state.isAuthenticated = true;
             }),
         builder
             .addCase(checkUser.pending, (state) => {

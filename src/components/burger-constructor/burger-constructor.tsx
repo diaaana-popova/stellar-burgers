@@ -3,8 +3,8 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector, useDispatch } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
-import { clearOrder, sendOrder } from '../slices/orderSlice';
-import { clearIngredients } from '../slices/constructorSlice';
+import { clearOrder, sendOrder } from '../../services/slices/orderSlice';
+import { clearIngredients } from '../../services/slices/constructorSlice';
 
 export const BurgerConstructor: FC = () => {
 

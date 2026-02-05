@@ -17,10 +17,10 @@ import { Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-do
 
 import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
-import { fetchIngredients } from '../../components/slices/ingredientSlice';
+import { fetchIngredients } from '../../services/slices/ingredientSlice';
 import { Preloader } from '@ui';
 import { ProtectedRoute } from '../protected-route';
-import { checkUser } from '../slices/profileSlice';
+import { checkUser } from '../../services/slices/profileSlice';
 
 const AppLayout = () => (
   <div className={styles.app}>
@@ -106,10 +106,11 @@ const App = () => {
           />
           <Route
           path='profile/orders/:number'
-          element={
-            <Modal title='Детали заказа' onClose={onClose}>
-              <OrderInfo />
-            </Modal>
+          element={<ProtectedRoute>
+              <Modal title='Детали заказа' onClose={onClose}>
+                <OrderInfo />
+              </Modal>
+            </ProtectedRoute>
             }
           />
       </Routes>
