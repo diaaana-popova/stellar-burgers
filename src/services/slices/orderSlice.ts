@@ -15,7 +15,7 @@ export const sendOrder = createAsyncThunk(
   async (data: string[]) => orderBurgerApi(data)
 );
 
-const initialState: Order = {
+export const initialState: Order = {
     currentOrder: null,
     myOrders: [],
     success: false,
