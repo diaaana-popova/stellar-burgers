@@ -28,5 +28,5 @@
       "@selectors": ["src/services/selectors"]
     }
   },
-  "include": ["src", "cypress/component/constructor-page.cy.tsx"]
+  "include": ["src"]
 }
