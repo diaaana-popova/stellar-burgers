@@ -1,3 +1,5 @@
+import '../support/commands';
+
 describe('Constructor Page ingredients testing', () => {
     beforeEach(() => {
         cy.intercept('GET', '**/ingredients*', {
@@ -48,18 +50,21 @@ describe('Constructor Page ingredients testing', () => {
         cy.get('[data-testid="ingredient.643d69a5c3f7b9001cfa0948"]')
         .click();
 
-        cy.get('[data-testid="modal-close"]').click();
+        cy.closeModalByCross();
+    })
 
-        cy.get('[data-testid="modal"]').should('not.exist');
+    it('модальное окно корректно закрывается по нажатию на Esc', () => {
+        cy.get('[data-testid="ingredient.643d69a5c3f7b9001cfa0948"]')
+        .click();
+
+        cy.closeModalByEsc();
     })
 
     it('модальное окно корректно закрывается по клику на оверлей', () => {
         cy.get('[data-testid="ingredient.643d69a5c3f7b9001cfa0948"]')
         .click();
 
-        cy.get('body').click(1, 1);
-
-        cy.get('[data-testid="modal"]').should('not.exist');
+        cy.closeModalByOverlay();
     })
 })
 
@@ -138,14 +143,15 @@ describe('Constructor Page profile testing', () => {
     })
 
     it('модальное окно корректно закрывается по клику на крестик', () => {
-        cy.get('[data-testid="modal-close"]').click();
-        cy.get('[data-testid="modal"]').should('not.exist');
+        cy.closeModalByCross();
+    })
+
+    it('модальное окно корректно закрывается по нажатию на Esc', () => {
+        cy.closeModalByEsc();
     })
 
     it('модальное окно корректно закрывается по клику на оверлей', () => {        
-        cy.get('body').click(1, 1);
-
-        cy.get('[data-testid="modal"]').should('not.exist');
+        cy.closeModalByOverlay();
     })
 
     it('конструктор пуст', () => {
