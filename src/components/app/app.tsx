@@ -29,7 +29,7 @@ const AppLayout = () => (
   </div>
 );
 
-const App = () => {
+export const App = () => {
 
   const location = useLocation();
   const background = location.state?.background;
